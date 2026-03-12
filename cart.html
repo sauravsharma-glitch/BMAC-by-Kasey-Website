@@ -483,15 +483,19 @@
 </head>
 <body>
   <!-- nav - fully responsive -->
-  <div class="menu-nav">
-    <div class="logo">BMAC <span>by Kasey</span></div>
-    <div class="nav-actions">
-      <a href="index.html" class="back-btn" onclick="mockMenu(event)"><i class="fas fa-arrow-left"></i> Back to Menu</a>
-      <a href="#" class="cart-icon" onclick="mockCart(event)">
-        <i class="fas fa-shopping-cart"></i> Cart <span id="cartCount">0</span>
-      </a>
-    </div>
+<div class="menu-nav">
+  <div class="logo">BMAC <span>by Kasey</span></div>
+
+  <div class="nav-actions">
+    <a href="index.html" class="back-btn">
+      <i class="fas fa-arrow-left"></i> Back to Menu
+    </a>
+
+    <a href="#" class="cart-icon" onclick="mockCart(event)">
+      <i class="fas fa-shopping-cart"></i> Cart <span id="cartCount">0</span>
+    </a>
   </div>
+</div>
 
   <!-- CART PAGE - now fully responsive with dynamic QR total like Myntra -->
   <div class="cart-page">
@@ -795,9 +799,9 @@
 
     // mock nav functions (just for demo, they reload or stay)
     function mockMenu(e) {
-      e.preventDefault();
-      alert('Menu page — in real app you would navigate. (keeping cart)');
-    }
+  e.preventDefault();
+  window.location.href = "menu.html";
+}
     function mockCart(e) {
       e.preventDefault();
       alert('You are already on cart page.');
