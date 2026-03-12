@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/685/685352.png">
+  <script src="https://kit.fontawesome.com/884d192f43.js" crossorigin="anonymous"></script> 
+  <title>BMAC by Kasey · Complete Menu</title>
+  <!-- Font Awesome for cart icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #fdf9f3;
+      color: #352e24;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* === FULLY RESPONSIVE NAVIGATION === */
+    .menu-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 5%;
+      background: #ffffff;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 4px solid #b9895e;
+      gap: 0.5rem;
+    }
+
+    .logo {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 800;
+      color: #4f3f2b;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+    .logo span {
+      color: #b9895e;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      font-weight: 300;
+      margin-left: 4px;
+    }
+
+    .cart-icon {
+      background: #f8ede2;
+      padding: 0.6rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #4f3f2b;
+      border: 1px solid #e9dacb;
+      transition: 0.2s;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      white-space: nowrap;
+    }
+    .cart-icon i {
+      color: #b9895e;
+      font-size: 1rem;
+    }
+    .cart-icon:hover {
+      background: #b9895e;
+      color: white;
+    }
+    .cart-icon:hover i {
+      color: white;
+    }
+
+    /* menu header */
+    .menu-header {
+      text-align: center;
+      padding: 2rem 5% 1rem;
+    }
+    .menu-header h1 {
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      color: #4f3f2b;
+    }
+    .menu-header h1 span {
+      color: #b9895e;
+      display: block;
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      font-weight: 400;
+      margin-top: 0.3rem;
+    }
+
+    /* section titles */
+    .section-title {
+      font-size: clamp(2rem, 5vw, 2.5rem);
+      font-weight: 700;
+      color: #4f3f2b;
+      margin: 2rem 5% 1.2rem;
+      border-left: 10px solid #b9895e;
+      padding-left: 1rem;
+    }
+
+    /* menu grid - FULLY RESPONSIVE */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin: 0 5% 3rem;
+    }
+
+    /* card */
+    .menu-card {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 15px 25px -12px #d4b48c;
+      transition: all 0.3s ease;
+      border: 1px solid #f0ddcc;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .menu-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 30px -12px #b9895e;
+      border-color: #b9895e;
+    }
+
+    .card-img {
+      height: 180px;
+      overflow: hidden;
+      background: #f3e3d5;
+    }
+    .card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .menu-card:hover .card-img img {
+      transform: scale(1.08);
+    }
+
+    .card-content {
+      padding: 1.5rem 1.2rem 1.2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-content h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #4f3f2b;
+      margin-bottom: 0.2rem;
+    }
+    .price {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #b9895e;
+      margin: 0.3rem 0;
+    }
+    .variant-note {
+      font-size: 0.8rem;
+      color: #8b6f50;
+      background: #fcf3e9;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      width: fit-content;
+    }
+    .description {
+      color: #6b523a;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+      flex: 1;
+    }
+    .add-to-cart {
+      background: transparent;
+      border: 2px solid #4f3f2b;
+      color: #4f3f2b;
+      padding: 0.7rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+    .add-to-cart i {
+      font-size: 1rem;
+    }
+    .add-to-cart:hover {
+      background: #4f3f2b;
+      color: white;
+      border-color: #4f3f2b;
+    }
+
+    /* footer */
+    .footer {
+      background: #4f3f2b;
+      color: #eadaca;
+      padding: 2rem 5%;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    /* notification */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #4f3f2b;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      border-left: 6px solid #b9895e;
+      font-size: 0.95rem;
+      max-width: 90%;
+    }
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    /* mobile optimization */
+    @media (max-width: 600px) {
+      .menu-nav {
+        flex-direction: row;
+        padding: 0.6rem 4%;
+      }
+      
+      .menu-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+        margin: 0 4% 2rem;
+      }
+      
+      .card-img {
+        height: 160px;
+      }
+      
+      .section-title {
+        margin: 1.5rem 4% 1rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .logo {
+        font-size: 1.3rem;
+      }
+      .logo span {
+        font-size: 1rem;
+      }
+      .cart-icon {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+      }
+      .card-content h3 {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* tablet optimization */
+    @media (min-width: 601px) and (max-width: 900px) {
+      .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Notification -->
+  <div id="notification" class="notification">
+    <i class="fas fa-check-circle" style="color: #b9895e; margin-right: 8px;"></i>
+    <span id="notificationMessage">Item added to cart!</span>
+  </div>
+
+  <!-- nav - fully responsive -->
+  <div class="menu-nav">
+    <div class="logo">BMAC <span>by Kasey</span></div>
+    <a href="cart.html" class="cart-icon">
+      <i class="fas fa-shopping-cart"></i> Cart <span id="cartCount">0</span>
+    </a>
+  </div>
+
+  <div class="menu-header">
+    <h1>COMPLETE MENU <span>BAKE ME A CAKE · MATHURA</span></h1>
+  </div>
+
+  <!-- ========== PIZZA & PASTA ========= -->
+  <h2 class="section-title">🍕 Pizza & Pasta</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=400&auto=format" alt="Margherita"></div><div class="card-content"><h3>Margherita</h3><div class="price">₹250</div><div class="description">Tomato Sauce, Mozzarella, Olive Oil, Basil Leaves, Oregano</div><button class="add-to-cart" onclick="addToCart(1, 'Margherita', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&auto=format" alt="Farm Fresh"></div><div class="card-content"><h3>Farm Fresh</h3><div class="price">₹320</div><div class="description">Tomato sauce, Mozzarella, Bell Peppers, Onion, Oregano</div><button class="add-to-cart" onclick="addToCart(2, 'Farm Fresh', 320)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1604917877934-07d8d248d396?w=400&auto=format" alt="Garden Delight"></div><div class="card-content"><h3>Garden Delight</h3><div class="price">₹350</div><div class="description">Tomato Sauce, Mozzarella, Bell Peppers, Mushroom, Broccoli, Baby Corn, Zucchini, Corn, Black Olives, Oregano</div><button class="add-to-cart" onclick="addToCart(3, 'Garden Delight', 350)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1574126154517-d1e0d89ef734?w=400&auto=format" alt="Paneer Tikka"></div><div class="card-content"><h3>Paneer Tikka Pizza</h3><div class="price">₹400</div><div class="description">Tomato Sauce, Mozzarella, Paneer, Bell peppers, Onion, Oregano</div><button class="add-to-cart" onclick="addToCart(4, 'Paneer Tikka Pizza', 400)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1645112411342-4665ad1b5b34?w=400&auto=format" alt="White Sauce Pasta"></div><div class="card-content"><h3>White Sauce Pasta</h3><div class="price">₹250</div><div class="description">Penne/Fusilli, Creamy White Sauce, Black olives, Parmesan, Oregano</div><button class="add-to-cart" onclick="addToCart(5, 'White Sauce Pasta', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=400&auto=format" alt="Red Sauce Pasta"></div><div class="card-content"><h3>Red Sauce Pasta</h3><div class="price">₹250</div><div class="description">Penne/Fusilli, Tomato Sauce, Black Olives, Parmesan, Basil, Oregano</div><button class="add-to-cart" onclick="addToCart(6, 'Red Sauce Pasta', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&auto=format" alt="Mix Sauce"></div><div class="card-content"><h3>Mix Sauce Pasta</h3><div class="price">₹250</div><div class="description">Penne/Fusilli, Tomato Sauce + White Sauce, Black Olives, Parmesan, Oregano</div><button class="add-to-cart" onclick="addToCart(7, 'Mix Sauce Pasta', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1608219992759-8d74ed8d76eb?w=400&auto=format" alt="Aglio Olio"></div><div class="card-content"><h3>Aglio Olio</h3><div class="price">₹250</div><div class="description">Spaghetti Pasta, Olive Oil, Basil Leaves, Parmesan, Oregano</div><button class="add-to-cart" onclick="addToCart(8, 'Aglio Olio', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== CHINESE ========= -->
+  <h2 class="section-title">🥡 Chinese</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1623428454614-abaf00244e52?w=400&auto=format" alt="Manchurian"></div><div class="card-content"><h3>Veg Manchurian Dry/Gravy</h3><div class="price">₹150 / 200</div><div class="variant-note">Half/Full</div><div class="description">Fried Vegetable Balls, Capsicum, Onion</div><button class="add-to-cart" onclick="addToCart(9, 'Veg Manchurian', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&auto=format" alt="Chilli Paneer"></div><div class="card-content"><h3>Chilli Paneer Dry/Gravy</h3><div class="price">₹200 / 300</div><div class="variant-note">Half/Full</div><div class="description">Coated Fried Paneer, Capsicum, Onion</div><button class="add-to-cart" onclick="addToCart(10, 'Chilli Paneer', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1626132647523-66d6d8d1a79b?w=400&auto=format" alt="Spring Roll"></div><div class="card-content"><h3>Veg Spring Roll</h3><div class="price">₹200</div><div class="description">Bell Peppers, Onion, Cabbage, Carrot</div><button class="add-to-cart" onclick="addToCart(11, 'Veg Spring Roll', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1627308595171-d1b5d6717b3b?w=400&auto=format" alt="Cheese Cigar"></div><div class="card-content"><h3>Cheese Cigar Roll</h3><div class="price">₹300</div><div class="description">Processed Cheese, Mozzarella</div><button class="add-to-cart" onclick="addToCart(12, 'Cheese Cigar Roll', 300)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1569058242258-9dfa1d9d6afb?w=400&auto=format" alt="Chinese Bhel"></div><div class="card-content"><h3>Chinese Bhel</h3><div class="price">₹200</div><div class="description">Crispy Fried Noodles, Veggies and Sauces</div><button class="add-to-cart" onclick="addToCart(13, 'Chinese Bhel', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1626803775155-9a9f3b609631?w=400&auto=format" alt="Honey Chilli Potato"></div><div class="card-content"><h3>Honey Chilli Potato</h3><div class="price">₹200</div><div class="description">Crispy Fried Potato, Capsicum, Onion, Chilli Sauce</div><button class="add-to-cart" onclick="addToCart(14, 'Honey Chilli Potato', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1625937282614-8b1b892f797c?w=400&auto=format" alt="Corn Cheese Dumplings"></div><div class="card-content"><h3>Corn and Cheese Dumplings</h3><div class="price">₹180</div><div class="description">Corn, Mozzarella, Processed Cheese</div><button class="add-to-cart" onclick="addToCart(15, 'Corn and Cheese Dumplings', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1625937282614-8b1b892f797c?w=400&auto=format" alt="Paneer Dumpling"></div><div class="card-content"><h3>Paneer Dumpling</h3><div class="price">₹180</div><div class="description">Fresh paneer wrapped in delicate dumpling sheets</div><button class="add-to-cart" onclick="addToCart(16, 'Paneer Dumpling', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1625937282614-8b1b892f797c?w=400&auto=format" alt="Paneer Crispy Dumpling"></div><div class="card-content"><h3>Paneer Crispy Dumpling</h3><div class="price">₹180</div><div class="description">Golden-fried dumplings filled with soft paneer</div><button class="add-to-cart" onclick="addToCart(17, 'Paneer Crispy Dumpling', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1625937282614-8b1b892f797c?w=400&auto=format" alt="Veg Crispy Dumpling"></div><div class="card-content"><h3>Veg Crispy Dumpling</h3><div class="price">₹150</div><div class="description">Crispy dumplings with fresh mix of vegetables</div><button class="add-to-cart" onclick="addToCart(18, 'Veg Crispy Dumpling', 150)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1625937282614-8b1b892f797c?w=400&auto=format" alt="Corn Cheese Crispy"></div><div class="card-content"><h3>Corn & Cheese Crispy Dumpling</h3><div class="price">₹180</div><div class="description">Sweet corn and creamy cheese wrapped in thin dumpling sheet</div><button class="add-to-cart" onclick="addToCart(19, 'Corn & Cheese Crispy Dumpling', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== BMAC SPECIAL ========= -->
+  <h2 class="section-title">✨ BMAC Special</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1515516089376-88c4bc5f3e00?w=400&auto=format" alt="Saute Vegetables"></div><div class="card-content"><h3>Saute Vegetables</h3><div class="price">₹300</div><div class="description">Bell peppers, Mushroom, Broccoli, Baby Corn, Zucchini, Carrot, Beans</div><button class="add-to-cart" onclick="addToCart(20, 'Saute Vegetables', 300)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=400&auto=format" alt="Cottage Cheese Steak"></div><div class="card-content"><h3>Cottage Cheese Steak</h3><div class="price">₹350</div><div class="description">Saute Vegetables, Grilled Paneer with BBQ sauce</div><button class="add-to-cart" onclick="addToCart(21, 'Cottage Cheese Steak', 350)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=400&auto=format" alt="Cottage Cheese Medolina"></div><div class="card-content"><h3>Cottage Cheese Medolina</h3><div class="price">₹350</div><div class="description">Saute vegetables, Grilled patty of paneer with Marinara Sauce</div><button class="add-to-cart" onclick="addToCart(22, 'Cottage Cheese Medolina', 350)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=400&auto=format" alt="Falafel Hummus"></div><div class="card-content"><h3>Pita Bread with Falafel Hummus</h3><div class="price">₹280</div><div class="description">4 chickpea patties, parsley, mint, 2 grilled pita, hummus</div><button class="add-to-cart" onclick="addToCart(23, 'Pita Bread with Falafel Hummus', 280)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=400&auto=format" alt="Cheese Stuffed Mushroom"></div><div class="card-content"><h3>Cheese Stuffed Mushroom</h3><div class="price">₹250</div><div class="description">Crispy fried mushroom stuffed with Mozzarella</div><button class="add-to-cart" onclick="addToCart(24, 'Cheese Stuffed Mushroom', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=400&auto=format" alt="Cheesy Paneer Quesadilla"></div><div class="card-content"><h3>Cheesy Paneer Quesadilla</h3><div class="price">₹250</div><div class="description">Bell Peppers, Cottage Cheese, Mozzarella, Tortilla Bread</div><button class="add-to-cart" onclick="addToCart(25, 'Cheesy Paneer Quesadilla', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=400&auto=format" alt="Falafel Wrap"></div><div class="card-content"><h3>Falafel Wrap</h3><div class="price">₹250</div><div class="description">Crispy Falafel Patty, Iceberg, Hummus, Tortilla Bread</div><button class="add-to-cart" onclick="addToCart(26, 'Falafel Wrap', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1608039829572-78524f79c4c7?w=400&auto=format" alt="Panfer Wrap"></div><div class="card-content"><h3>Panfer Wrap</h3><div class="price">₹200</div><div class="description">Bell Peppers, Paneer, Iceberg, Tortilla Bread</div><button class="add-to-cart" onclick="addToCart(27, 'Panfer Wrap', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== CAKES & PASTRIES ========= -->
+  <h2 class="section-title">🎂 Cakes & Pastries</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&auto=format" alt="Red Velvet"></div><div class="card-content"><h3>Red Velvet</h3><div class="price">₹700 (500g) / slice ₹160</div><div class="description">Classic red velvet cake</div><button class="add-to-cart" onclick="addToCart(28, 'Red Velvet', 700)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=400&auto=format" alt="Chocolate Truffle"></div><div class="card-content"><h3>Chocolate Truffle</h3><div class="price">₹700 / slice ₹140</div><div class="description">Rich chocolate truffle</div><button class="add-to-cart" onclick="addToCart(29, 'Chocolate Truffle', 700)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1558301211-0d8c8ddee6b2?w=400&auto=format" alt="Blueberry"></div><div class="card-content"><h3>Blueberry Cake</h3><div class="price">₹700 / slice ₹130</div><div class="description">Moist blueberry cake</div><button class="add-to-cart" onclick="addToCart(30, 'Blueberry Cake', 700)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1464349095431-e92125e78d0b?w=400&auto=format" alt="Opera Gateau"></div><div class="card-content"><h3>Opera Gateau</h3><div class="price">₹800 / slice ₹170</div><div class="description">French layered coffee & chocolate</div><button class="add-to-cart" onclick="addToCart(31, 'Opera Gateau', 800)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400&auto=format" alt="Tiramisu"></div><div class="card-content"><h3>Tiramisu</h3><div class="price">₹700 / slice ₹160</div><div class="description">Classic Italian dessert</div><button class="add-to-cart" onclick="addToCart(32, 'Tiramisu', 700)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&auto=format" alt="Chocolate Chips"></div><div class="card-content"><h3>Chocolate Chips</h3><div class="price">₹800 / slice ₹140</div><div class="description">Chocolate chip cake</div><button class="add-to-cart" onclick="addToCart(33, 'Chocolate Chips', 800)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1587248720935-b30ad2e09910?w=400&auto=format" alt="Florida Gateau"></div><div class="card-content"><h3>Florida Gateau</h3><div class="price">₹700 / slice ₹160</div><div class="description">Citrus layered cake</div><button class="add-to-cart" onclick="addToCart(34, 'Florida Gateau', 700)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1586788224331-947f4e6b26f0?w=400&auto=format" alt="Strawberry"></div><div class="card-content"><h3>Strawberry Cake</h3><div class="price">₹600 / slice ₹110</div><div class="description">Fresh strawberry cream cake</div><button class="add-to-cart" onclick="addToCart(35, 'Strawberry Cake', 600)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1606890658317-7d15290a5ace?w=400&auto=format" alt="Mango"></div><div class="card-content"><h3>Mango Cake</h3><div class="price">₹600 / slice ₹110</div><div class="description">Seasonal mango delight</div><button class="add-to-cart" onclick="addToCart(36, 'Mango Cake', 600)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1605807646983-3772c4bffbf0?w=400&auto=format" alt="Butter Scotch"></div><div class="card-content"><h3>Butter Scotch</h3><div class="price">₹550 / slice ₹100</div><div class="description">Classic butterscotch</div><button class="add-to-cart" onclick="addToCart(37, 'Butter Scotch', 550)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1605807646983-3772c4bffbf0?w=400&auto=format" alt="Black Forest"></div><div class="card-content"><h3>Black Forest</h3><div class="price">₹500 / slice ₹100</div><div class="description">Cherry chocolate cake</div><button class="add-to-cart" onclick="addToCart(38, 'Black Forest', 500)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1605807646983-3772c4bffbf0?w=400&auto=format" alt="Pineapple"></div><div class="card-content"><h3>Pineapple Cake</h3><div class="price">₹500 / slice ₹100</div><div class="description">Pineapple pastry</div><button class="add-to-cart" onclick="addToCart(39, 'Pineapple Cake', 500)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== CHEESECAKES ========= -->
+  <h2 class="section-title">🍰 Cheesecakes & Slices</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&auto=format" alt="Blueberry Cheesecake"></div><div class="card-content"><h3>Blueberry Cheesecake</h3><div class="price">₹1000 (500g) / slice ₹250</div><div class="description">Creamy blueberry cheesecake</div><button class="add-to-cart" onclick="addToCart(40, 'Blueberry Cheesecake', 1000)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1524350876685-274059332603?w=400&auto=format" alt="Lemon Cheesecake"></div><div class="card-content"><h3>Lemon Cheesecake</h3><div class="price">₹1000 / slice ₹250</div><div class="description">Zesty lemon cheesecake</div><button class="add-to-cart" onclick="addToCart(41, 'Lemon Cheesecake', 1000)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&auto=format" alt="Strawberry Cheesecake"></div><div class="card-content"><h3>Strawberry Cheesecake</h3><div class="price">₹800 / slice ₹200</div><div class="description">Strawberry swirl cheesecake</div><button class="add-to-cart" onclick="addToCart(42, 'Strawberry Cheesecake', 800)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&auto=format" alt="Mango Cheesecake"></div><div class="card-content"><h3>Mango Cheesecake</h3><div class="price">₹800 / slice ₹200</div><div class="description">Mango flavored cheesecake</div><button class="add-to-cart" onclick="addToCart(43, 'Mango Cheesecake', 800)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&auto=format" alt="Lotus Biscoff Cheesecake"></div><div class="card-content"><h3>Lotus Biscoff Cheesecake</h3><div class="price">₹800 / slice ₹200</div><div class="description">Lotus biscuit cheesecake</div><button class="add-to-cart" onclick="addToCart(44, 'Lotus Biscoff Cheesecake', 800)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&auto=format" alt="Nutella Cheesecake"></div><div class="card-content"><h3>Nutella Cheesecake</h3><div class="price">₹800 / slice ₹200</div><div class="description">Nutella cheesecake</div><button class="add-to-cart" onclick="addToCart(45, 'Nutella Cheesecake', 800)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&auto=format" alt="Pineapple Cheesecake"></div><div class="card-content"><h3>Pineapple Cheesecake</h3><div class="price">₹800 / slice ₹200</div><div class="description">Pineapple cheesecake</div><button class="add-to-cart" onclick="addToCart(46, 'Pineapple Cheesecake', 800)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=400&auto=format" alt="Chocolate Cheesecake"></div><div class="card-content"><h3>Chocolate Cheesecake</h3><div class="price">₹800 / slice ₹200</div><div class="description">Rich chocolate cheesecake</div><button class="add-to-cart" onclick="addToCart(47, 'Chocolate Cheesecake', 800)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== DESSERTS ========= -->
+  <h2 class="section-title">🍮 Desserts</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1619983081563-430f63602796?w=400&auto=format" alt="Brownie Plain"></div><div class="card-content"><h3>Brownie (Plain/Walnut)</h3><div class="price">₹120</div><div class="description">Warm brownie with choice of walnut</div><button class="add-to-cart" onclick="addToCart(48, 'Brownie', 120)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1618885472179-5e474019f2a9?w=400&auto=format" alt="Sizzling Nutella Brownie"></div><div class="card-content"><h3>Sizzling Nutella Brownie</h3><div class="price">₹200</div><div class="description">Brownie with Nutella, served sizzling</div><button class="add-to-cart" onclick="addToCart(49, 'Sizzling Nutella Brownie', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1617305855058-336d24456869?w=400&auto=format" alt="Waffle"></div><div class="card-content"><h3>Waffle (Choc/Blueberry/Vanilla)</h3><div class="price">₹180</div><div class="description">Crispy waffle with topping</div><button class="add-to-cart" onclick="addToCart(50, 'Waffle', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1617305855058-336d24456869?w=400&auto=format" alt="Waffle Nutella"></div><div class="card-content"><h3>Waffle (Nutella)</h3><div class="price">₹250</div><div class="description">Waffle with Nutella spread</div><button class="add-to-cart" onclick="addToCart(51, 'Waffle Nutella', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1571115177094-24ec2a5e7e5e?w=400&auto=format" alt="Pancake"></div><div class="card-content"><h3>Pancake (Blueberry/Chocolate)</h3><div class="price">₹180</div><div class="description">Fluffy pancakes with topping</div><button class="add-to-cart" onclick="addToCart(52, 'Pancake', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1571115177094-24ec2a5e7e5e?w=400&auto=format" alt="Pancake Nutella"></div><div class="card-content"><h3>Pancake (Nutella)</h3><div class="price">₹250</div><div class="description">Pancakes with Nutella</div><button class="add-to-cart" onclick="addToCart(53, 'Pancake Nutella', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1587248720935-b30ad2e09910?w=400&auto=format" alt="Churros"></div><div class="card-content"><h3>Churros</h3><div class="price">₹250</div><div class="description">Spanish doughnuts with chocolate</div><button class="add-to-cart" onclick="addToCart(54, 'Churros', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1587248720935-b30ad2e09910?w=400&auto=format" alt="Mousse Cake"></div><div class="card-content"><h3>Mousse Cake</h3><div class="price">₹200</div><div class="description">Light and airy mousse cake</div><button class="add-to-cart" onclick="addToCart(55, 'Mousse Cake', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1587248720935-b30ad2e09910?w=400&auto=format" alt="Chocolate Doughnut"></div><div class="card-content"><h3>Chocolate Doughnut</h3><div class="price">₹70</div><div class="description">Doughnut with chocolate glaze</div><button class="add-to-cart" onclick="addToCart(56, 'Chocolate Doughnut', 70)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1587248720935-b30ad2e09910?w=400&auto=format" alt="Chocolate Eclair"></div><div class="card-content"><h3>Chocolate Eclair</h3><div class="price">₹80</div><div class="description">Eclair filled with chocolate</div><button class="add-to-cart" onclick="addToCart(57, 'Chocolate Eclair', 80)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1587248720935-b30ad2e09910?w=400&auto=format" alt="Croissant"></div><div class="card-content"><h3>Croissant (Butter/Cheese/Chocolate)</h3><div class="price">₹180</div><div class="description">Flaky croissant</div><button class="add-to-cart" onclick="addToCart(58, 'Croissant', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== BEVERAGES ========= -->
+  <h2 class="section-title">☕ Beverages & Shakes</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&auto=format" alt="Espresso"></div><div class="card-content"><h3>Espresso/Americano</h3><div class="price">₹140</div><div class="description">Freshly ground coffee brewed with pressure & hot water</div><button class="add-to-cart" onclick="addToCart(59, 'Espresso', 140)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&auto=format" alt="Cappuccino"></div><div class="card-content"><h3>Cappuccino</h3><div class="price">₹200</div><div class="description">Espresso with frothed milk</div><button class="add-to-cart" onclick="addToCart(60, 'Cappuccino', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=400&auto=format" alt="Latte"></div><div class="card-content"><h3>Café Latte</h3><div class="price">₹200</div><div class="description">Espresso with steamed milk</div><button class="add-to-cart" onclick="addToCart(61, 'Café Latte', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=400&auto=format" alt="Mocha"></div><div class="card-content"><h3>Café Mocha</h3><div class="price">₹220</div><div class="description">Espresso with steamed milk & melted dark chocolate</div><button class="add-to-cart" onclick="addToCart(62, 'Café Mocha', 220)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=400&auto=format" alt="Hot Chocolate"></div><div class="card-content"><h3>Hot Chocolate</h3><div class="price">₹200</div><div class="description">Rich & creamy hot chocolate with cocoa & dark chocolate</div><button class="add-to-cart" onclick="addToCart(63, 'Hot Chocolate', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1513558161293-e1afb6a4b799?w=400&auto=format" alt="Iced Tea"></div><div class="card-content"><h3>Iced Tea (Lemon/Peach/Passion Fruit/Orange)</h3><div class="price">₹150</div><div class="description">Freshly brewed iced tea</div><button class="add-to-cart" onclick="addToCart(64, 'Iced Tea', 150)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&auto=format" alt="Mojito"></div><div class="card-content"><h3>Mojito (Virgin/Watermelon/Strawberry)</h3><div class="price">₹150</div><div class="description">Refreshing mint lime</div><button class="add-to-cart" onclick="addToCart(65, 'Mojito', 150)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&auto=format" alt="Blue Lagoon"></div><div class="card-content"><h3>Blue Lagoon</h3><div class="price">₹170</div><div class="description">Refreshing blue citrus mocktail</div><button class="add-to-cart" onclick="addToCart(66, 'Blue Lagoon', 170)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&auto=format" alt="Lemonade"></div><div class="card-content"><h3>Lemonade</h3><div class="price">₹150</div><div class="description">Fresh lemonade</div><button class="add-to-cart" onclick="addToCart(67, 'Lemonade', 150)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format" alt="Oreo Shake"></div><div class="card-content"><h3>Oreo Shake</h3><div class="price">₹180</div><div class="description">Vanilla ice cream, dark chocolate, Oreo, milk</div><button class="add-to-cart" onclick="addToCart(68, 'Oreo Shake', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format" alt="Brownie Shake"></div><div class="card-content"><h3>Brownie Shake</h3><div class="price">₹220</div><div class="description">Vanilla ice cream, dark chocolate, brownie, milk</div><button class="add-to-cart" onclick="addToCart(69, 'Brownie Shake', 220)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format" alt="Red Velvet Shake"></div><div class="card-content"><h3>Red Velvet Shake</h3><div class="price">₹200</div><div class="description">Vanilla ice cream, red velvet crumb, cream cheese, milk, whip cream</div><button class="add-to-cart" onclick="addToCart(70, 'Red Velvet Shake', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format" alt="Belgian Chocolate Shake"></div><div class="card-content"><h3>Belgian Chocolate Shake</h3><div class="price">₹280</div><div class="description">Vanilla ice cream, Belgian chocolate, milk</div><button class="add-to-cart" onclick="addToCart(71, 'Belgian Chocolate Shake', 280)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format" alt="Strawberry Shake"></div><div class="card-content"><h3>Strawberry Shake</h3><div class="price">₹180</div><div class="description">Vanilla ice cream, strawberry crush, milk, whip cream</div><button class="add-to-cart" onclick="addToCart(72, 'Strawberry Shake', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format" alt="KitKat Shake"></div><div class="card-content"><h3>KitKat Shake</h3><div class="price">₹200</div><div class="description">Vanilla ice cream, dark chocolate, KitKat, milk</div><button class="add-to-cart" onclick="addToCart(73, 'KitKat Shake', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format" alt="Vanilla Shake"></div><div class="card-content"><h3>Vanilla Shake</h3><div class="price">₹180</div><div class="description">Vanilla ice cream, vanilla syrup, milk</div><button class="add-to-cart" onclick="addToCart(74, 'Vanilla Shake', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&auto=format" alt="Lotus Biscoff Shake"></div><div class="card-content"><h3>Lotus Biscoff Shake</h3><div class="price">₹280</div><div class="description">Vanilla ice cream, Lotus Biscoff spread & cookies, milk</div><button class="add-to-cart" onclick="addToCart(75, 'Lotus Biscoff Shake', 280)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== BOMBAY SPECIAL ========= -->
+  <h2 class="section-title">🍛 Bombay Special & More</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&auto=format" alt="Pav Bhaji"></div><div class="card-content"><h3>Pav Bhaji (Butter/Cheese)</h3><div class="price">₹180 / 300</div><div class="variant-note">2 pav / 4 pav</div><div class="description">Mashed vegetables, aromatic spices served with soft pav</div><button class="add-to-cart" onclick="addToCart(76, 'Pav Bhaji', 240)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&auto=format" alt="Misal Pav"></div><div class="card-content"><h3>Misal Pav</h3><div class="price">₹200 / 350</div><div class="variant-note">Half/Full</div><div class="description">Soft pav served with spicy gravy, sprouts, potato bhaji & namkeen</div><button class="add-to-cart" onclick="addToCart(77, 'Misal Pav', 280)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&auto=format" alt="Vada Pav"></div><div class="card-content"><h3>Vada Pav (Butter/Cheese)</h3><div class="price">₹150</div><div class="description">Crispy vada, Bombay laadi pav with peri peri fries</div><button class="add-to-cart" onclick="addToCart(78, 'Vada Pav', 150)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&auto=format" alt="Dabeli"></div><div class="card-content"><h3>Dabeli</h3><div class="price">₹150</div><div class="description">Butter pav with sweet, spicy & tangy potato, peri peri fries</div><button class="add-to-cart" onclick="addToCart(79, 'Dabeli', 150)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== RICE & NOODLES ========= -->
+  <h2 class="section-title">🍚 Rice & Noodles</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1645112411342-4665ad1b5b34?w=400&auto=format" alt="Hakka Noodles"></div><div class="card-content"><h3>Veg Hakka Noodles</h3><div class="price">₹150 / 220</div><div class="variant-note">Half/Full</div><div class="description">Bell peppers, cabbage, onion, carrot</div><button class="add-to-cart" onclick="addToCart(80, 'Veg Hakka Noodles', 190)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1645112411342-4665ad1b5b34?w=400&auto=format" alt="Chilli Garlic Noodles"></div><div class="card-content"><h3>Chilli Garlic Noodles</h3><div class="price">₹150 / 220</div><div class="variant-note">Half/Full</div><div class="description">Bell peppers, cabbage, onion, carrot, chilli sauce, garlic</div><button class="add-to-cart" onclick="addToCart(81, 'Chilli Garlic Noodles', 190)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1645112411342-4665ad1b5b34?w=400&auto=format" alt="Veg Fried Rice"></div><div class="card-content"><h3>Veg Fried Rice</h3><div class="price">₹150 / 220</div><div class="variant-note">Half/Full</div><div class="description">Bell peppers, beans, carrot</div><button class="add-to-cart" onclick="addToCart(82, 'Veg Fried Rice', 190)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1645112411342-4665ad1b5b34?w=400&auto=format" alt="Chilli Garlic Rice"></div><div class="card-content"><h3>Chilli Garlic Rice</h3><div class="price">₹150 / 220</div><div class="variant-note">Half/Full</div><div class="description">Bell peppers, beans, carrot, chilli sauce, garlic</div><button class="add-to-cart" onclick="addToCart(83, 'Chilli Garlic Rice', 190)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== SANDWICHES ========= -->
+  <h2 class="section-title">🥪 Sandwiches (Brown Bread)</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&auto=format" alt="Paneer Tikka Sandwich"></div><div class="card-content"><h3>Paneer Tikka Sandwich</h3><div class="price">₹200</div><div class="description">Paneer, bell peppers, onion, side of fries</div><button class="add-to-cart" onclick="addToCart(84, 'Paneer Tikka Sandwich', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&auto=format" alt="Cheese Corn Sandwich"></div><div class="card-content"><h3>Cheese and Corn Sandwich</h3><div class="price">₹200</div><div class="description">Corn, mozzarella, side of fries</div><button class="add-to-cart" onclick="addToCart(85, 'Cheese and Corn Sandwich', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&auto=format" alt="Mexican Cheese Sandwich"></div><div class="card-content"><h3>Mexican Cheese Sandwich</h3><div class="price">₹220</div><div class="description">Bell peppers, mushroom, broccoli, baby corn, beans, zucchini, onion, side of fries</div><button class="add-to-cart" onclick="addToCart(86, 'Mexican Cheese Sandwich', 220)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&auto=format" alt="Three Cheese Sandwich"></div><div class="card-content"><h3>Three Cheese Sandwich</h3><div class="price">₹220</div><div class="description">Three types of cheese, side of fries</div><button class="add-to-cart" onclick="addToCart(87, 'Three Cheese Sandwich', 220)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&auto=format" alt="Veg Grilled Cheese"></div><div class="card-content"><h3>Veg Grilled Cheese</h3><div class="price">₹160</div><div class="description">Cucumber, tomato, onion, cheese slice, side of fries</div><button class="add-to-cart" onclick="addToCart(88, 'Veg Grilled Cheese', 160)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&auto=format" alt="Club Sandwich"></div><div class="card-content"><h3>Club Sandwich</h3><div class="price">₹250</div><div class="description">Cabbage, carrot, mayonnaise, side of fries</div><button class="add-to-cart" onclick="addToCart(89, 'Club Sandwich', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+
+  <!-- ========== SALADS & STARTERS ========= -->
+  <h2 class="section-title">🥗 Salads & Starters</h2>
+  <div class="menu-grid">
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=400&auto=format" alt="Caesar Salad"></div><div class="card-content"><h3>Caesar Salad</h3><div class="price">₹300</div><div class="description">Iceberg, parmesan, bell peppers, black olives</div><button class="add-to-cart" onclick="addToCart(90, 'Caesar Salad', 300)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&auto=format" alt="Fruit Salad"></div><div class="card-content"><h3>Fruit Salad</h3><div class="price">₹250</div><div class="description">Seasonal fresh fruits</div><button class="add-to-cart" onclick="addToCart(91, 'Fruit Salad', 250)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1576086213360-ee97c5b3d3a2?w=400&auto=format" alt="Garlic Bread"></div><div class="card-content"><h3>Garlic Bread (Mozzarella)</h3><div class="price">₹180</div><div class="description">Crispy garlic bread topped with mozzarella</div><button class="add-to-cart" onclick="addToCart(92, 'Garlic Bread', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1576086213360-ee97c5b3d3a2?w=400&auto=format" alt="Cheese Nachos"></div><div class="card-content"><h3>Cheese Nachos</h3><div class="price">₹180</div><div class="description">Nachos, processed cheese, fresh cream</div><button class="add-to-cart" onclick="addToCart(93, 'Cheese Nachos', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1576086213360-ee97c5b3d3a2?w=400&auto=format" alt="Mushroom Garlic Bread"></div><div class="card-content"><h3>Mushroom Garlic Bread</h3><div class="price">₹200</div><div class="description">Crispy garlic bread topped with sauté mushroom, black olive, parmesan</div><button class="add-to-cart" onclick="addToCart(94, 'Mushroom Garlic Bread', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1576086213360-ee97c5b3d3a2?w=400&auto=format" alt="Tomato Garlic Bread"></div><div class="card-content"><h3>Tomato & Basil Garlic Bread</h3><div class="price">₹200</div><div class="description">Crispy garlic bread topped with sauté tomato, basil leaves</div><button class="add-to-cart" onclick="addToCart(95, 'Tomato Garlic Bread', 200)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+    <div class="menu-card"><div class="card-img"><img src="https://images.unsplash.com/photo-1576086213360-ee97c5b3d3a2?w=400&auto=format" alt="Beetroot Cutlet"></div><div class="card-content"><h3>Beetroot Cutlet</h3><div class="price">₹180</div><div class="description">Crispy cutlets made with mashed beetroot and potato</div><button class="add-to-cart" onclick="addToCart(96, 'Beetroot Cutlet', 180)"><i class="fas fa-cart-plus"></i> Add to cart</button></div></div>
+  </div>
+ 
+  <!-- Footer -->
+  <div class="footer">
+    <p>© 2025 BMAC by Kasey — BAKE ME A CAKE. All rights reserved.</p>
+    <p style="margin-top:1rem;">🍰 follow us · instagram · facebook</p>
+  </div>
+
+  <script>
+    // Cart functionality - only for adding items
+    let cart = JSON.parse(localStorage.getItem('bmacCart')) || [];
+
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      const messageSpan = document.getElementById('notificationMessage');
+      messageSpan.textContent = message;
+      notification.classList.add('show');
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 2000);
+    }
+
+    function updateCartCount() {
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cartCount').innerText = count;
+    }
+
+    function addToCart(id, name, price) {
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id, name, price, qty: 1 });
+      }
+      localStorage.setItem('bmacCart', JSON.stringify(cart));
+      updateCartCount();
+      showNotification(`${name} added to cart!`);
+    }
+
+    // Initialize
+    updateCartCount();
+  </script>
+</body>
+</html>

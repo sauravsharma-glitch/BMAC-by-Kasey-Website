@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/685/685352.png">
+  <script src="https://kit.fontawesome.com/884d192f43.js" crossorigin="anonymous"></script> 
+  <title>BMAC by Kasey · Bake Me A Cake · Mathura</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #fdf9f3;
+      color: #352e24;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* === RESPONSIVE NAVBAR with LOGO (left side) === */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 5%;
+      background: #ffffff;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      border-bottom: 4px solid #d4a373;
+    }
+
+    /* logo container — image + text side by side */
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .logo-img {
+      height: 50px;
+      width: auto;
+      max-width: 120px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-main {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #4a3b2c;
+      line-height: 1.1;
+    }
+
+    .logo-main span {
+      color: #b9895e;
+      font-size: 1.2rem;
+      font-weight: 400;
+      display: block;
+    }
+
+    .restaurant-badge {
+      font-size: 0.7rem;
+      color: #6b4f32;
+      background: #f8e3c2;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      display: inline-block;
+      margin-top: 2px;
+      width: fit-content;
+    }
+
+    /* desktop navigation */
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .nav-item {
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #3d2f1f;
+      transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: pointer;
+      background: #f8f3ec;
+      border: 1px solid #e9dacb;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, #d4a373, #b9895e);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+
+    .nav-item:hover::before {
+      left: 0;
+    }
+
+    .nav-item:hover {
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px -8px #b97c4b;
+      border-color: transparent;
+    }
+
+    .reservation-btn {
+      background: #b9895e;
+      color: white !important;
+      border: none;
+      box-shadow: 0 5px 0 #7a553a;
+    }
+
+    .reservation-btn:hover {
+      background: #9e6f48;
+      transform: translateY(-2px);
+      box-shadow: 0 7px 0 #5e3f2b;
+    }
+
+    /* mobile menu toggle (hamburger) */
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      color: #4a3b2c;
+      cursor: pointer;
+      background: #f8ede2;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* mobile navigation (hidden by default) */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      background: white;
+      padding: 1.5rem;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+      z-index: 999;
+      border-top: 3px solid #b9895e;
+      border-bottom: 3px solid #d4a373;
+    }
+
+    .mobile-nav.active {
+      display: block;
+    }
+
+    .mobile-nav a {
+      display: block;
+      padding: 1rem;
+      text-decoration: none;
+      color: #4a3b2c;
+      font-weight: 600;
+      border-bottom: 1px solid #f0e3d5;
+      font-size: 1.1rem;
+    }
+
+    .mobile-nav a:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-nav a:hover {
+      background: #f8ede2;
+      border-radius: 12px;
+    }
+
+    /* restaurant info bar */
+    .restaurant-info-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2rem;
+      background: #4a3b2c;
+      color: white;
+      padding: 0.8rem 5%;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .info-item i {
+      color: #f4a261;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    /* === hero (fully responsive) === */
+    .hero-section {
+      display: flex;
+      flex-wrap: wrap;
+      min-height: auto;
+    }
+
+    .hero-content {
+      flex: 1 1 350px;
+      background: #f8ede2;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-content h2 {
+      font-size: clamp(2.5rem, 6vw, 3.8rem);
+      font-weight: 800;
+      color: #4a3b2c;
+      line-height: 1.1;
+    }
+
+    .hero-content h2 span {
+      color: #b9895e;
+      display: block;
+      font-size: clamp(2rem, 5vw, 3rem);
+    }
+
+    .hero-description {
+      font-size: 1rem;
+      color: #5b4a36;
+      margin: 1.2rem 0;
+      max-width: 500px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #4a3b2c;
+    }
+
+    .stat-label {
+      color: #7b5e41;
+      font-size: 0.85rem;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 0.8rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .btn-primary {
+      background: #b9895e;
+      color: white;
+      box-shadow: 0 6px 0 #7a553a;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 9px 0 #5e3f2b, 0 5px 15px #d4a373;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 2px solid #4a3b2c;
+      color: #4a3b2c;
+    }
+
+    .btn-secondary:hover {
+      background: #4a3b2c;
+      color: white;
+      transform: scale(1.02);
+    }
+
+    .hero-gallery {
+      flex: 1.2 1 350px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      padding: 1.5rem;
+      background: #f5e9db;
+    }
+
+    .gallery-item {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 25px -10px rgba(0,0,0,0.15);
+      transition: 0.4s;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.08);
+    }
+
+    .item1 {
+      grid-row: span 2;
+      height: 100%;
+    }
+    .item2, .item3 { height: 150px; }
+    .item4 { grid-column: span 2; height: 170px; }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(0deg, rgba(74,59,44,0.9) 0%, transparent);
+      color: white;
+      padding: 1.5rem 1rem 0.8rem;
+      font-weight: 600;
+      transform: translateY(100%);
+      transition: transform 0.3s;
+      text-align: center;
+    }
+
+    .gallery-item:hover .gallery-caption {
+      transform: translateY(0);
+    }
+
+    /* === all sections made responsive === */
+    .featured-flavors, .menu-section, .gallery-section, .reviews-section, .contact-section {
+      padding: 4rem 5%;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      color: #4f3f2b;
+      margin-bottom: 1.5rem;
+      border-left: 12px solid #b9895e;
+      padding-left: 1rem;
+    }
+
+    .flavor-grid, .menu-grid, .reviews-grid, .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.8rem;
+      margin-top: 2rem;
+    }
+
+    /* cards */
+    .flavor-card, .menu-item, .feature-card, .review-card {
+      background: white;
+      border-radius: 30px;
+      padding: 2rem 1.2rem;
+      text-align: center;
+      box-shadow: 0 15px 25px -12px #d4b48c;
+      transition: 0.3s;
+      border: 1px solid #f0ddcc;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flavor-card:hover, .menu-item:hover, .feature-card:hover, .review-card:hover {
+      transform: translateY(-10px);
+      border-color: #b9895e;
+      box-shadow: 0 25px 30px -12px #b9895e;
+    }
+
+    .flavor-icon, .feature-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .menu-img {
+      height: 180px;
+      overflow: hidden;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+    .menu-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #b9895e;
+      margin: 0.5rem 0;
+    }
+
+    /* seasonal */
+    .seasonal {
+      display: flex;
+      flex-wrap: wrap;
+      background: #f9efe4;
+      padding: 3rem 5%;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .seasonal-content { flex: 1 1 300px; }
+    .seasonal-image { flex: 1 1 300px; }
+    .seasonal-image img {
+      width: 100%;
+      border-radius: 40% 20% 40% 20%;
+    }
+
+    .badge {
+      background: #b9895e;
+      color: white;
+      padding: 0.3rem 1.2rem;
+      border-radius: 30px;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    /* gallery grid */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .gallery-grid-item {
+      height: 220px;
+      border-radius: 25px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(transparent 50%, #4f3f2be0);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.2rem;
+      color: white;
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .gallery-grid-item:hover .gallery-overlay { opacity: 1; }
+
+    /* build section */
+    .build-section {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 4rem 5%;
+      background: #fcf6ef;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .build-card, .testimonial-card {
+      flex: 1 1 280px;
+      background: white;
+      border-radius: 40px;
+      padding: 2rem;
+      box-shadow: 0 25px 30px -15px #bb9f83;
+    }
+
+    /* stats */
+    .love-stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 3rem 5%;
+    }
+
+    .stat-item {
+      background: #fff9f2;
+      padding: 1.8rem;
+      border-radius: 80px 20px 80px 20px;
+      flex: 1 1 160px;
+      text-align: center;
+    }
+
+    /* contact */
+    .contact-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .contact-info {
+      flex: 1 1 280px;
+      background: white;
+      padding: 2rem;
+      border-radius: 30px;
+    }
+
+    .map-small {
+      flex: 2 1 350px;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+    .map-small iframe { width: 100%; height: 280px; }
+
+    /* footer */
+    .footer {
+      background: #4f3f2b;
+      color: #eadaca;
+      padding: 2.5rem 5%;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* === MOBILE MEDIA QUERIES === */
+    @media (max-width: 900px) {
+      .nav-links { gap: 0.5rem; }
+      .nav-item { padding: 0.4rem 0.8rem; font-size: 0.8rem; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .menu-toggle { display: flex; }
+      
+      .hero-content { text-align: center; }
+      .hero-content p { margin-left: auto; margin-right: auto; }
+      .hero-stats { justify-content: center; }
+      .hero-buttons { justify-content: center; }
+      
+      .hero-gallery {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .item1, .item2, .item3, .item4 {
+        grid-column: auto;
+        grid-row: auto;
+        height: 200px;
+      }
+      
+      .restaurant-info-bar {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-main { font-size: 1.4rem; }
+      .logo-main span { font-size: 1rem; }
+      .restaurant-badge { font-size: 0.65rem; }
+      .logo-img { height: 40px; }
+      
+      .hero-content { padding: 2rem 1rem; }
+      .btn-primary, .btn-secondary { width: 100%; }
+      .hero-buttons { flex-direction: column; }
+      
+      .section-title { font-size: 2rem; }
+      .seasonal-content h2 { font-size: 2.2rem; }
+    }
+
+    /* tiny screens */
+    @media (max-width: 360px) {
+      .logo-container { gap: 5px; }
+      .logo-main { font-size: 1.2rem; }
+      .logo-img { height: 35px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- navigation with LOGO.JPEG on left -->
+  <nav class="navbar">
+    <div class="logo-container">
+      <!-- logo.jpeg – replace src with your actual logo path -->
+      <img src="Images/logo.jpeg" alt="BMAC by Kasey" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="logo-text" style="display: block;">
+        <div class="logo-main">BMAC <span>by Kasey</span></div>
+        <div class="restaurant-badge">⭐ 4.5 · Best in Mathura</div>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <a href="#home" class="nav-item">Home</a>
+      <a href="menu.html" class="nav-item">Menu</a>
+      <a href="#gallery" class="nav-item">Gallery</a>
+      <a href="#events" class="nav-item">Events</a>
+      <a href="#about" class="nav-item">About Us</a>
+      <a href="#contact" class="nav-item">Contact</a>
+      <a href="menu.html" class="nav-item reservation-btn">📅 Order Now</a>
+    </div>
+
+    <!-- mobile hamburger -->
+    <div class="menu-toggle" onclick="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </div>
+  </nav>
+
+  <!-- mobile navigation menu -->
+  <div class="mobile-nav" id="mobileNav">
+    <a href="#home" onclick="toggleMobileMenu()">🏠 Home</a>
+    <a href="menu.html" onclick="toggleMobileMenu()">📖 Menu</a>
+    <a href="#gallery" onclick="toggleMobileMenu()">🖼️ Gallery</a>
+    <a href="#events" onclick="toggleMobileMenu()">🎉 Events</a>
+    <a href="#about" onclick="toggleMobileMenu()">📌 About Us</a>
+    <a href="#contact" onclick="toggleMobileMenu()">📞 Contact</a>
+    <a href="menu.html" onclick="toggleMobileMenu()" style="color:#b9895e; font-weight:bold;">🍰 Order Now</a>
+  </div>
+
+  <!-- info bar -->
+  <div class="restaurant-info-bar">
+    <span class="info-item"><i>⏰</i> Open Today: 11:00 AM – 10:00 PM</span>
+    <span class="info-item"><i>📍</i> Bakery and Cafe, Mathura (opposite Moti Manzil)</span>
+    <span class="info-item"><i>📞</i> +91 98975 15105</span>
+    <span class="info-item"><i>👥</i> 200+ Google Reviews</span>
+  </div>
+
+  <!-- HOME SECTION -->
+  <section id="home" class="hero-section">
+    <div class="hero-content">
+      <h2>BAKE ME A CAKE <span>Feel the Sweetness</span></h2>
+      <p class="hero-description">Artisan bakery & cafe in Mathura. Freshly baked goods, specialty coffee, and warm ambience. Your daily slice of happiness.</p>
+      
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-number">40+</div><div class="stat-label">Bakes</div></div>
+        <div class="stat"><div class="stat-number">15+</div><div class="stat-label">Coffee Varieties</div></div>
+        <div class="stat"><div class="stat-number">4.5★</div><div class="stat-label">Google Rating</div></div>
+      </div>
+
+      <div class="hero-buttons">
+        <button class="btn-primary" onclick="location.href='menu.html'">Explore Menu →</button>
+        <button class="btn-secondary" onclick="location.href='#contact'">Book a Table</button>
+      </div>
+    </div>
+
+    <!-- hero gallery -->
+    <div class="hero-gallery">
+      <div class="gallery-item item1">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400" alt="Cafe interior">
+        <div class="gallery-caption">Cozy Corner</div>
+      </div>
+      <div class="gallery-item item2">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400" alt="Latte">
+        <div class="gallery-caption">Signature Coffee</div>
+      </div>
+      <div class="gallery-item item3">
+        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" alt="Burger">
+        <div class="gallery-caption">BMAC Burger</div>
+      </div>
+      <div class="gallery-item item4">
+        <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?w=400" alt="Breakfast">
+        <div class="gallery-caption">Breakfast Platter</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Flavors -->
+  <section class="featured-flavors">
+    <h2 class="section-title">Featured Flavors</h2>
+    <div class="flavor-grid">
+      <div class="flavor-card"><div class="flavor-icon">🧁</div><h3>Vanilla Ben</h3><p>classic Madagascar vanilla</p></div>
+      <div class="flavor-card"><div class="flavor-icon">🍓</div><h3>Strawberry</h3><p>fresh strawberry cream</p></div>
+      <div class="flavor-card"><div class="flavor-icon">🧂🍯</div><h3>Salted Caramel</h3><p>handcrafted caramel salt</p></div>
+    </div>
+  </section>
+
+  <!-- Why choose us -->
+  <div class="featured-section">
+    <h2 class="section-title">Why You'll Love BMAC by Kasey</h2>
+    <div class="card-grid">
+      <div class="feature-card"><div class="feature-icon">🍰</div><h3>Freshly Baked</h3><p>Every cake, pastry baked daily</p></div>
+      <div class="feature-card"><div class="feature-icon">☕</div><h3>Artisan Coffee</h3><p>Specialty beans, perfect roast</p></div>
+      <div class="feature-card"><div class="feature-icon">🎶</div><h3>Live Music</h3><p>Every Friday & Saturday</p></div>
+      <div class="feature-card"><div class="feature-icon">🛵</div><h3>Free Delivery</h3><p>Within 3km radius</p></div>
+    </div>
+  </div>
+
+  <!-- Seasonal Specials -->
+  <section class="seasonal">
+    <div class="seasonal-content">
+      <span class="badge">🌸 seasonal special</span>
+      <h2>Spring Yeni</h2>
+      <h4>Lavander · Lavande</h4>
+      <p>Fragrant and aromatic with a delightful lavender essence. Creamy, sweet, and refreshing — like spring in every bite.</p>
+      <a href="#reviews" class="customer-link" style="display:inline-block; margin-top:1.5rem; background:white; padding:0.7rem 2rem; border-radius:40px; text-decoration:none; color:#4f3f2b; font-weight:600; box-shadow:0 5px 0 #e7d4be;">→ meet our customers</a>
+    </div>
+    <div class="seasonal-image">
+      <img src="https://images.unsplash.com/photo-1587248720935-b30ad2e09910?w=400" alt="Lavender cake">
+    </div>
+  </section>
+
+  <!-- MENU SECTION -->
+  <section id="menu" class="menu-section">
+    <h2 class="section-title">Fresh from the oven</h2>
+    <div class="menu-grid">
+      <div class="menu-item"><div class="menu-img"><img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400" alt="chocolate pastry"></div><div class="menu-info"><h3>Belgian Dark</h3><div class="price">₹299</div><p>72% cocoa mousse</p></div></div>
+      <div class="menu-item"><div class="menu-img"><img src="https://images.unsplash.com/photo-1488477304112-4944851de03d?w=400" alt="red velvet"></div><div class="menu-info"><h3>Red Velvet</h3><div class="price">₹349</div><p>cream cheese frosting</p></div></div>
+      <div class="menu-item"><div class="menu-img"><img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400" alt="chocolate cake"></div><div class="menu-info"><h3>Death by Choc</h3><div class="price">₹449</div><p>layered fudge</p></div></div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="gallery-section">
+    <h2 class="section-title">Sweet Moments</h2>
+    <div class="gallery-grid">
+      <div class="gallery-grid-item"><img src="https://i.pinimg.com/736x/6a/53/f0/6a53f06e843918a8a353287161b3d50f.jpg" alt="pastry"><div class="gallery-overlay">éclairs</div></div>
+      <div class="gallery-grid-item"><img src="https://i.pinimg.com/474x/b1/c9/c0/b1c9c0d5b972484daa2fc79f52f0840f.jpg" alt="cake"><div class="gallery-overlay">berry cheesecake</div></div>
+      <div class="gallery-grid-item"><img src="https://i.pinimg.com/474x/b1/c9/c0/b1c9c0d5b972484daa2fc79f52f0840f.jpg" alt="cake"><div class="gallery-overlay">berry cheesecake</div></div>
+      <div class="gallery-grid-item"><img src="https://i.pinimg.com/474x/df/a1/2b/dfa12b8475c870fc96ea5ecbd905c9be.jpg" alt="dessert"><div class="gallery-overlay">Lemon Cheesecake</div></div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="reviews-section">
+    <h2 class="section-title">What our customers say</h2>
+    <div class="reviews-grid">
+      <div class="review-card"><div class="reviewer"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya"><h4>Priya Sharma</h4></div><div class="review-stars">★★★★★</div><p class="review-text">The best bakery in Mathura! Their red velvet cake is absolutely divine.</p></div>
+      <div class="review-card"><div class="reviewer"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rahul"><h4>Rahul Verma</h4></div><div class="review-stars">★★★★★</div><p class="review-text">Amazing coffee and the lavender seasonal special was a dream.</p></div>
+      <div class="review-card"><div class="reviewer"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rahul"><h4>Rahul Verma</h4></div><div class="review-stars">★★★★★</div><p class="review-text">Amazing coffee and the lavender seasonal special was a dream.</p></div>
+      <div class="review-card"><div class="reviewer"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Anjali"><h4>Anjali Mehta</h4></div><div class="review-stars">★★★★☆</div><p class="review-text">Their custom cakes are perfect for celebrations.</p></div>
+    </div>
+  </section>
+
+  <!-- Build Your Own Cake -->
+  <section id="events" class="build-section">
+    <div class="build-card">
+      <h3>Build Your Own Cake</h3>
+      <div class="price-badge" style="background:#b9895e; color:white; padding:0.3rem 1.2rem; border-radius:40px; display:inline-block;">starting ₹499</div>
+      <ul style="list-style:none; margin:1.5rem 0;"><li>🍰 choose your base</li><li>🍰 pick filling</li><li>🍰 add toppings</li></ul>
+      <button style="width:100%; padding:1rem; border-radius:60px; background:transparent; border:2px solid #4f3f2b; font-weight:700;"><a href="#contact">start designing →</a></button>
+    </div>
+    <div class="testimonial-card">
+      <div class="quote" style="font-size:4rem; color:#b9895e;">“</div>
+      <h4>Customer Love</h4>
+      <p><strong>Seeding goals</strong> are earned if you sell 1,000 units.<br><strong>Saving tokens</strong> underperform.<br><strong>Borrowers</strong> want the privilege.</p>
+      <div class="stars">★★★★★</div>
+    </div>
+  </section>
+
+  <!-- about stats -->
+  <section id="about" class="love-stats">
+    <div class="stat-item"><div class="stat-number">1k+</div><div>Seeding goals earned</div></div>
+    <div class="stat-item"><div class="stat-number">0.4%</div><div>Saving tokens underperform</div></div>
+    <div class="stat-item"><div class="stat-number">86%</div><div>Borrowers want privilege</div></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact-section">
+    <h2 class="section-title">Visit our bakery</h2>
+    <div class="contact-details">
+      <div class="contact-info">
+        <h3>📍 Get in touch</h3>
+        <div class="contact-detail-item"><i class="fas fa-map-marker-alt"></i> Opposite Moti Manzil, Krishna Nagar, Mathura</div>
+        <div class="contact-detail-item"><i class="fas fa-phone-alt"></i> +91 98975 15105</div>
+        <div class="contact-detail-item"><i class="fas fa-envelope"></i> hello@bmacbykasey.com</div>
+        <div class="contact-detail-item"><i class="fas fa-clock"></i> Mon-Sun: 11:00 AM – 10:00 PM</div>
+      </div>
+      <div class="map-small">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3543.613908632655!2d77.6520451!3d27.4935717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3973714ab1325545%3A0xefa863b1f92a2716!2sBMAC%20by%20Kasey%3A%20BAKE%20ME%20A%20CAKE%2C%20Bakery%20and%20Cafe%20Mathura!5e0!3m2!1sen!2sin!4v1712150321654" allowfullscreen="" loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- hidden anchor -->
+  <div id="order" style="scroll-margin-top: 80px;"></div>
+
+  <footer class="footer">
+    <p>© 2025 BMAC by Kasey — BAKE ME A CAKE. All rights reserved.</p>
+    <p style="margin-top:1rem;">🍰 follow us · instagram · facebook</p>
+  </footer>
+
+  <script>
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileNav');
+      menu.classList.toggle('active');
+      // close when clicking a link (already added onclick)
+    }
+
+    // close mobile menu on window resize (if open)
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) {
+        document.getElementById('mobileNav').classList.remove('active');
+      }
+    });
+
+    // optional: close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('mobileNav');
+      const toggle = document.querySelector('.menu-toggle');
+      if (menu.classList.contains('active') && !menu.contains(event.target) && !toggle.contains(event.target)) {
+        menu.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
