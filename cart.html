@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/685/685352.png">
-  <title>BMAC by Kasey · smart UPI cart</title>
+  <title>BMAC by Kasey · cash on delivery</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -233,91 +233,33 @@
       border-color: #b9895e;
     }
 
-    /* payment methods */
+    /* payment methods — ONLY COD now, no UPI */
     .payment-method {
       display: flex;
       align-items: center;
       gap: 1rem;
       padding: 1rem;
-      border: 2px solid #e9dacb;
+      border: 2px solid #b9895e;       /* always selected border */
       border-radius: 50px;
       margin-bottom: 1rem;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .payment-method.selected {
-      border-color: #b9895e;
-      background: #f8ede2;
-    }
-    .payment-method input[type="radio"] {
-      width: 18px;
-      height: 18px;
-      accent-color: #b9895e;
-      flex-shrink: 0;
+      background: #f8ede2;              /* selected style permanent */
     }
     .payment-method label {
       font-weight: 500;
-      cursor: pointer;
+      cursor: default;
       flex: 1;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       flex-wrap: wrap;
+      color: #4f3f2b;
+    }
+    .payment-method i {
+      color: #b9895e;
+      font-size: 1.2rem;
     }
 
-    /* UPI QR - now shows the exact total amount like Myntra style */
-    .upi-section {
-      margin-top: 1.2rem;
-      padding: 1.2rem;
-      background: white;
-      border-radius: 30px;
-      border: 2px solid #e9dacb;
-    }
-    .qr-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-    .qr-code {
-      background: #f8ede2;
-      padding: 0.8rem;
-      border-radius: 20px;
-      border: 2px dashed #b9895e;
-      max-width: 100%;
-    }
-    .qr-code img {
-      width: 100%;
-      max-width: 200px;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-    }
-    .upi-id {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #4f3f2b;
-      background: #f8ede2;
-      padding: 0.5rem 1.2rem;
-      border-radius: 50px;
-      border: 2px solid #b9895e;
-      word-break: break-all;
-      text-align: center;
-    }
-    /* total amount chip inside QR area — Myntra like dynamic */
-    .qr-total-badge {
-      background: #4f3f2b;
-      color: #f8ede2;
-      font-weight: 700;
-      font-size: 1.3rem;
-      padding: 0.5rem 1.5rem;
-      border-radius: 60px;
-      display: inline-block;
-      border: 3px solid #b9895e;
-      letter-spacing: 1px;
-      margin: 0.2rem 0 0.5rem;
-      box-shadow: 0 4px 0 #2b1f14;
-    }
+    /* UPI section completely removed – not present */
 
     .place-order-btn {
       background: #b9895e;
@@ -445,10 +387,6 @@
       .payment-method {
         padding: 0.8rem;
       }
-
-      .qr-code img {
-        max-width: 160px;
-      }
     }
 
     @media (max-width: 400px) {
@@ -473,11 +411,22 @@
       }
     }
 
-    /* tablet adjustments */
     @media (min-width: 601px) and (max-width: 900px) {
       .cart-item-info h4 {
         font-size: 1.1rem;
       }
+    }
+
+    /* simple COD only badge */
+    .cod-only-badge {
+      background: #b9895e20;
+      color: #4f3f2b;
+      padding: 0.5rem 1rem;
+      border-radius: 60px;
+      font-weight: 500;
+      border: 2px solid #b9895e;
+      display: inline-block;
+      margin-left: 0.5rem;
     }
   </style>
 </head>
@@ -497,10 +446,10 @@
   </div>
 </div>
 
-  <!-- CART PAGE - now fully responsive with dynamic QR total like Myntra -->
+  <!-- CART PAGE - COD only, UPI completely removed -->
   <div class="cart-page">
     <div class="cart-header">
-      <h2>Your Cart</h2>
+      <h2>Your Cart <span class="cod-only-badge"><i class="fas fa-money-bill-wave"></i> cash on delivery only</span></h2>
     </div>
     <div id="cartItems" class="cart-items"></div>
     
@@ -536,34 +485,16 @@
       </div>
     </div>
 
-    <!-- Payment Options -->
+    <!-- Payment Options – only COD, UPI block removed entirely -->
     <div class="payment-options">
       <h3><i class="fas fa-credit-card"></i> Payment Method</h3>
-      <div class="payment-method" onclick="selectPayment('cod')" id="paymentCod">
-        <input type="radio" name="payment" value="cod" checked> 
-        <label><i class="fas fa-money-bill-wave"></i> Cash on Delivery (COD)</label>
+      <!-- only one method: cash on delivery, always selected, no UPI option -->
+      <div class="payment-method">
+        <i class="fas fa-money-bill-wave fa-lg"></i> 
+        <label><i class="fas fa-truck"></i> Cash on Delivery (COD)</label>
+        <span style="margin-left: auto; font-size:0.9rem; background:#b9895e; color:white; padding:0.2rem 1rem; border-radius:40px;">only option</span>
       </div>
-      <div class="payment-method" onclick="selectPayment('upi')" id="paymentUpi">
-        <input type="radio" name="payment" value="upi"> 
-        <label><i class="fas fa-mobile-alt"></i> UPI Payment (scan & pay)</label>
-      </div>
-      
-      <!-- UPI QR Code Section - Dynamic total badge (Myntra like) -->
-      <div id="upiQRSection" class="upi-section" style="display: none;">
-        <h4 style="display: flex; align-items: center; gap: 8px;"><i class="fas fa-qrcode"></i> Scan with any UPI app</h4>
-        <div class="qr-container">
-          <!-- total amount badge updates automatically via js -->
-          <div class="qr-total-badge" id="qrTotalBadge">₹0</div>
-          <div class="qr-code">
-            <!-- dynamic QR for UPI with exact amount & note -->
-            <img id="dynamicQR" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=saurav454sharma@oksbi&pn=BMAC%20by%20Kasey&am=0&cu=INR" alt="UPI QR with total">
-          </div>
-          <div class="upi-id">
-            <i class="fas fa-qrcode"></i> saurav454sharma@oksbi
-          </div>
-          <p style="color: #6b523a; font-size: 0.9rem;">Pay exactly <span id="qrTotalMessage">₹0</span> via GPay / PhonePe / Paytm</p>
-        </div>
-      </div>
+      <!-- UPI section completely deleted – no QR, no UPI text, no hidden block -->
     </div>
 
     <!-- Delivery Note -->
@@ -572,7 +503,7 @@
     </div>
 
     <button class="place-order-btn" onclick="placeOrder()">
-      <i class="fas fa-check-circle"></i> Place Order
+      <i class="fas fa-check-circle"></i> Place Order (COD)
     </button>
 
     <!-- Review Section -->
@@ -597,10 +528,10 @@
   </div>
 
   <script>
-    // Cart functionality with demo items (Myntra like QR total update)
+    // Cart functionality – only COD, UPI fully removed (no QR or references)
     let cart = JSON.parse(localStorage.getItem('bmacCart')) || [];
     
-    // if cart empty on first load, seed with nice examples (so you see the dynamic total)
+    // if cart empty on first load, seed with nice examples
     if (cart.length === 0) {
       cart = [
         { id: 1, name: '🍫 Belgian Chocolate Cake', price: 450, qty: 1 },
@@ -609,38 +540,10 @@
       localStorage.setItem('bmacCart', JSON.stringify(cart));
     }
 
-    let selectedPayment = 'cod';
-    let currentRating = 0;
-
+    // selected payment always COD – no toggle, no variable needed
     function updateCartCount() {
       const count = cart.reduce((sum, item) => sum + item.qty, 0);
       document.getElementById('cartCount').innerText = count;
-    }
-
-    // updates QR image with exact amount like Myntra payment page
-    function refreshUpiQrWithTotal() {
-      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      
-      // Only calculate delivery if cart has items
-      let delivery = 0;
-      if (cart.length > 0) {
-        delivery = subtotal > 499 ? 0 : 40;
-      }
-      const total = subtotal + delivery;
-
-      const qrTotalBadge = document.getElementById('qrTotalBadge');
-      const qrTotalMessage = document.getElementById('qrTotalMessage');
-      const dynamicQR = document.getElementById('dynamicQR');
-
-      if (qrTotalBadge) qrTotalBadge.innerText = `₹${total}`;
-      if (qrTotalMessage) qrTotalMessage.innerText = `₹${total}`;
-
-      // Only update QR with amount if total > 0
-      if (total > 0) {
-        const upiString = `upi://pay?pa=saurav454sharma@oksbi&pn=BMAC%20by%20Kasey&am=${total}&cu=INR&tn=Order%20at%20BMAC`;
-        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
-        if (dynamicQR) dynamicQR.src = qrUrl;
-      }
     }
 
     function renderCart() {
@@ -648,9 +551,8 @@
       if (cart.length === 0) {
         cartItemsDiv.innerHTML = '<div class="empty-cart"><h3>Your cart is empty</h3><a href="#" onclick="mockMenu(event)">Browse Menu</a></div>';
         document.getElementById('subtotal').innerText = '₹0';
-        document.getElementById('deliveryCharge').innerText = '₹0'; // Fixed: Show ₹0 for empty cart
+        document.getElementById('deliveryCharge').innerText = '₹0';
         document.getElementById('totalAmount').innerText = '₹0';
-        refreshUpiQrWithTotal();
         return;
       }
 
@@ -676,14 +578,11 @@
       });
 
       cartItemsDiv.innerHTML = itemsHtml;
-      const delivery = subtotal > 499 ? 0 : 40;
+      const delivery = (subtotal > 499 || subtotal === 0) ? 0 : 40;
       const total = subtotal + delivery;
       document.getElementById('subtotal').innerText = `₹${subtotal}`;
       document.getElementById('deliveryCharge').innerText = delivery === 0 ? 'Free' : `₹${delivery}`;
       document.getElementById('totalAmount').innerText = `₹${total}`;
-      
-      // every time cart updates, refresh QR total & link (if upi visible)
-      refreshUpiQrWithTotal();
     }
 
     function updateQty(id, change) {
@@ -704,19 +603,6 @@
       localStorage.setItem('bmacCart', JSON.stringify(cart));
       renderCart();
       updateCartCount();
-    }
-
-    function selectPayment(method) {
-      selectedPayment = method;
-      document.getElementById('paymentCod').classList.toggle('selected', method === 'cod');
-      document.getElementById('paymentUpi').classList.toggle('selected', method === 'upi');
-      const upiSection = document.getElementById('upiQRSection');
-      if (method === 'upi') {
-        upiSection.style.display = 'block';
-        refreshUpiQrWithTotal();  // show badge & qr with latest total
-      } else {
-        upiSection.style.display = 'none';
-      }
     }
 
     function placeOrder() {
@@ -751,7 +637,7 @@
       orderDetails += `👤 *Name:* ${name}%0a`;
       orderDetails += `📞 *Mobile:* ${mobile}%0a`;
       orderDetails += `📍 *Address:* ${address}%0a`;
-      orderDetails += `💳 *Payment:* ${selectedPayment === 'cod' ? 'Cash on Delivery' : 'UPI (QR scanned)'}%0a`;
+      orderDetails += `💳 *Payment:* Cash on Delivery%0a`;   // hardcoded COD
       orderDetails += `━━━━━━━━━━━━━━━%0a`;
       orderDetails += `_Thank you for ordering with BMAC by Kasey!_ ❤️`;
 
@@ -768,7 +654,6 @@
     }
 
     function setRating(star) {
-      currentRating = star;
       const stars = document.querySelectorAll('.rating i');
       stars.forEach((s, index) => {
         if (index < star) {
@@ -781,27 +666,28 @@
 
     function submitReview() {
       const review = document.getElementById('reviewText').value;
-      if (currentRating === 0) {
+      // find current rating (count filled stars)
+      const filledStars = document.querySelectorAll('.rating .fas.fa-star').length;
+      if (filledStars === 0) {
         alert('Please select a rating');
         return;
       }
       
-      const reviewText = `⭐ *${currentRating} Star Review* ⭐%0a💬 ${review}`;
+      const reviewText = `⭐ *${filledStars} Star Review* ⭐%0a💬 ${review}`;
       const reviewUrl = `https://wa.me/919027038209?text=${encodeURIComponent(reviewText)}`;
       window.open(reviewUrl, '_blank');
       
-      alert(`Thank you for your ${currentRating}-star review!`);
+      alert(`Thank you for your ${filledStars}-star review!`);
       document.getElementById('reviewSection').classList.remove('active');
       document.getElementById('reviewText').value = '';
       document.querySelectorAll('.rating i').forEach(s => s.className = 'far fa-star');
-      currentRating = 0;
     }
 
-    // mock nav functions (just for demo, they reload or stay)
+    // mock nav functions
     function mockMenu(e) {
-  e.preventDefault();
-  window.location.href = "menu.html";
-}
+      e.preventDefault();
+      window.location.href = "menu.html";  // dummy link – you can replace with actual menu
+    }
     function mockCart(e) {
       e.preventDefault();
       alert('You are already on cart page.');
@@ -810,7 +696,7 @@
     // Initialize
     renderCart();
     updateCartCount();
-    selectPayment('cod');
+    // no upi selection, no qr refresh – all removed
   </script>
 </body>
 </html>
