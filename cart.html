@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/685/685352.png">
-  <title>BMAC by Kasey · Your Cart</title>
+  <title>BMAC by Kasey · smart UPI cart</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -265,7 +265,7 @@
       flex-wrap: wrap;
     }
 
-    /* UPI QR */
+    /* UPI QR - now shows the exact total amount like Myntra style */
     .upi-section {
       margin-top: 1.2rem;
       padding: 1.2rem;
@@ -303,6 +303,20 @@
       border: 2px solid #b9895e;
       word-break: break-all;
       text-align: center;
+    }
+    /* total amount chip inside QR area — Myntra like dynamic */
+    .qr-total-badge {
+      background: #4f3f2b;
+      color: #f8ede2;
+      font-weight: 700;
+      font-size: 1.3rem;
+      padding: 0.5rem 1.5rem;
+      border-radius: 60px;
+      display: inline-block;
+      border: 3px solid #b9895e;
+      letter-spacing: 1px;
+      margin: 0.2rem 0 0.5rem;
+      box-shadow: 0 4px 0 #2b1f14;
     }
 
     .place-order-btn {
@@ -472,14 +486,14 @@
   <div class="menu-nav">
     <div class="logo">BMAC <span>by Kasey</span></div>
     <div class="nav-actions">
-      <a href="menu.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Menu</a>
-      <a href="cart.html" class="cart-icon">
+      <a href="index.html" class="back-btn" onclick="mockMenu(event)"><i class="fas fa-arrow-left"></i> Back to Menu</a>
+      <a href="#" class="cart-icon" onclick="mockCart(event)">
         <i class="fas fa-shopping-cart"></i> Cart <span id="cartCount">0</span>
       </a>
     </div>
   </div>
 
-  <!-- CART PAGE - now fully responsive -->
+  <!-- CART PAGE - now fully responsive with dynamic QR total like Myntra -->
   <div class="cart-page">
     <div class="cart-header">
       <h2>Your Cart</h2>
@@ -527,20 +541,23 @@
       </div>
       <div class="payment-method" onclick="selectPayment('upi')" id="paymentUpi">
         <input type="radio" name="payment" value="upi"> 
-        <label><i class="fas fa-mobile-alt"></i> UPI Payment</label>
+        <label><i class="fas fa-mobile-alt"></i> UPI Payment (scan & pay)</label>
       </div>
       
-      <!-- UPI QR Code Section -->
+      <!-- UPI QR Code Section - Dynamic total badge (Myntra like) -->
       <div id="upiQRSection" class="upi-section" style="display: none;">
-        <h4>Scan & Pay with any UPI App</h4>
+        <h4 style="display: flex; align-items: center; gap: 8px;"><i class="fas fa-qrcode"></i> Scan with any UPI app</h4>
         <div class="qr-container">
+          <!-- total amount badge updates automatically via js -->
+          <div class="qr-total-badge" id="qrTotalBadge">₹0</div>
           <div class="qr-code">
-            <img src="Images/upi image.jpeg" alt="UPI QR Code" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=saurav454sharma@oksbi&pn=BMAC%20by%20Kasey&am=0&cu=INR';">
+            <!-- dynamic QR for UPI with exact amount & note -->
+            <img id="dynamicQR" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=saurav454sharma@oksbi&pn=BMAC%20by%20Kasey&am=0&cu=INR" alt="UPI QR with total">
           </div>
           <div class="upi-id">
             <i class="fas fa-qrcode"></i> saurav454sharma@oksbi
           </div>
-          <p style="color: #6b523a; font-size: 0.9rem;">Scan with any UPI app (Google Pay/PhonePe/Paytm)</p>
+          <p style="color: #6b523a; font-size: 0.9rem;">Pay exactly <span id="qrTotalMessage">₹0</span> via GPay / PhonePe / Paytm</p>
         </div>
       </div>
     </div>
@@ -576,8 +593,18 @@
   </div>
 
   <script>
-    // Cart functionality
+    // Cart functionality with demo items (Myntra like QR total update)
     let cart = JSON.parse(localStorage.getItem('bmacCart')) || [];
+    
+    // if cart empty on first load, seed with nice examples (so you see the dynamic total)
+    if (cart.length === 0) {
+      cart = [
+        { id: 1, name: '🍫 Belgian Chocolate Cake', price: 450, qty: 1 },
+        { id: 2, name: '🥭 Mango Cheese Slice', price: 180, qty: 2 }
+      ];
+      localStorage.setItem('bmacCart', JSON.stringify(cart));
+    }
+
     let selectedPayment = 'cod';
     let currentRating = 0;
 
@@ -586,12 +613,40 @@
       document.getElementById('cartCount').innerText = count;
     }
 
+    // updates QR image with exact amount like Myntra payment page
+    function refreshUpiQrWithTotal() {
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      
+      // Only calculate delivery if cart has items
+      let delivery = 0;
+      if (cart.length > 0) {
+        delivery = subtotal > 499 ? 0 : 40;
+      }
+      const total = subtotal + delivery;
+
+      const qrTotalBadge = document.getElementById('qrTotalBadge');
+      const qrTotalMessage = document.getElementById('qrTotalMessage');
+      const dynamicQR = document.getElementById('dynamicQR');
+
+      if (qrTotalBadge) qrTotalBadge.innerText = `₹${total}`;
+      if (qrTotalMessage) qrTotalMessage.innerText = `₹${total}`;
+
+      // Only update QR with amount if total > 0
+      if (total > 0) {
+        const upiString = `upi://pay?pa=saurav454sharma@oksbi&pn=BMAC%20by%20Kasey&am=${total}&cu=INR&tn=Order%20at%20BMAC`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiString)}`;
+        if (dynamicQR) dynamicQR.src = qrUrl;
+      }
+    }
+
     function renderCart() {
       const cartItemsDiv = document.getElementById('cartItems');
       if (cart.length === 0) {
-        cartItemsDiv.innerHTML = '<div class="empty-cart"><h3>Your cart is empty</h3><a href="menu.html">Browse Menu</a></div>';
+        cartItemsDiv.innerHTML = '<div class="empty-cart"><h3>Your cart is empty</h3><a href="#" onclick="mockMenu(event)">Browse Menu</a></div>';
         document.getElementById('subtotal').innerText = '₹0';
+        document.getElementById('deliveryCharge').innerText = '₹0'; // Fixed: Show ₹0 for empty cart
         document.getElementById('totalAmount').innerText = '₹0';
+        refreshUpiQrWithTotal();
         return;
       }
 
@@ -622,6 +677,9 @@
       document.getElementById('subtotal').innerText = `₹${subtotal}`;
       document.getElementById('deliveryCharge').innerText = delivery === 0 ? 'Free' : `₹${delivery}`;
       document.getElementById('totalAmount').innerText = `₹${total}`;
+      
+      // every time cart updates, refresh QR total & link (if upi visible)
+      refreshUpiQrWithTotal();
     }
 
     function updateQty(id, change) {
@@ -648,7 +706,13 @@
       selectedPayment = method;
       document.getElementById('paymentCod').classList.toggle('selected', method === 'cod');
       document.getElementById('paymentUpi').classList.toggle('selected', method === 'upi');
-      document.getElementById('upiQRSection').style.display = method === 'upi' ? 'block' : 'none';
+      const upiSection = document.getElementById('upiQRSection');
+      if (method === 'upi') {
+        upiSection.style.display = 'block';
+        refreshUpiQrWithTotal();  // show badge & qr with latest total
+      } else {
+        upiSection.style.display = 'none';
+      }
     }
 
     function placeOrder() {
@@ -683,7 +747,7 @@
       orderDetails += `👤 *Name:* ${name}%0a`;
       orderDetails += `📞 *Mobile:* ${mobile}%0a`;
       orderDetails += `📍 *Address:* ${address}%0a`;
-      orderDetails += `💳 *Payment:* ${selectedPayment === 'cod' ? 'Cash on Delivery' : 'UPI'}%0a`;
+      orderDetails += `💳 *Payment:* ${selectedPayment === 'cod' ? 'Cash on Delivery' : 'UPI (QR scanned)'}%0a`;
       orderDetails += `━━━━━━━━━━━━━━━%0a`;
       orderDetails += `_Thank you for ordering with BMAC by Kasey!_ ❤️`;
 
@@ -727,6 +791,16 @@
       document.getElementById('reviewText').value = '';
       document.querySelectorAll('.rating i').forEach(s => s.className = 'far fa-star');
       currentRating = 0;
+    }
+
+    // mock nav functions (just for demo, they reload or stay)
+    function mockMenu(e) {
+      e.preventDefault();
+      alert('Menu page — in real app you would navigate. (keeping cart)');
+    }
+    function mockCart(e) {
+      e.preventDefault();
+      alert('You are already on cart page.');
     }
 
     // Initialize
